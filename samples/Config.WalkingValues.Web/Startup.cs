@@ -3,7 +3,7 @@ using System.Threading.Tasks;
 using Microsoft.AspNet.Builder;
 using Microsoft.AspNet.Http;
 using Microsoft.Framework.ConfigurationModel;
-using Microsoft.Net.Runtime;
+using Microsoft.Framework.Runtime;
 
 public class Startup
 {
@@ -42,18 +42,5 @@ namespace Microsoft.Net.Runtime
     [AttributeUsage(AttributeTargets.All, Inherited = false, AllowMultiple = true)]
     public sealed class AssemblyNeutralAttribute : Attribute
     {
-    }
-}
-
-namespace Microsoft.Net.Runtime
-{
-    using System.Runtime.Versioning;
-    [AssemblyNeutral]
-    public interface IApplicationEnvironment
-    {
-        string ApplicationName { get; }
-        string Version { get; }
-        string ApplicationBasePath { get; }
-        FrameworkName TargetFramework { get; }
     }
 }
