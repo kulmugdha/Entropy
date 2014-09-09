@@ -16,31 +16,13 @@ namespace NamespaceRouting
     {
         public void Configure(IBuilder app)
         {
-            // Setup configuration sources
-            var configuration = new Configuration();
-            configuration.AddJsonFile("config.json");
-            configuration.AddEnvironmentVariables();
-
             // Set up application services
             app.UseServices(services =>
             {
-                // Add EF services to the services container
-                services.AddEntityFramework()
-                    .AddSqlServer();
-
-                // Configure DbContext
-                services.SetupOptions<DbContextOptions>(options =>
-                {
-                    options.UseSqlServer(configuration.Get("Data:DefaultConnection:ConnectionString"));
-                });
-
                 services.SetupOptions<MvcOptions>(options =>
                 {
                     options.ApplicationModelConventions.Add(new NameSpaceRoutingConvention());
                 });
-                // Add Identity services to the services container
-                services.AddIdentitySqlServer<ApplicationDbContext, ApplicationUser>()
-                    .AddAuthentication();
 
                 // Add MVC services to the services container
                 services.AddMvc();
@@ -48,9 +30,6 @@ namespace NamespaceRouting
 
             // Enable Browser Link support
             app.UseBrowserLink();
-
-            // Add static files to the request pipeline
-            app.UseStaticFiles();
 
             // Add cookie-based authentication to the request pipeline
             app.UseCookieAuthentication(new CookieAuthenticationOptions
@@ -62,11 +41,6 @@ namespace NamespaceRouting
             // Add MVC to the request pipeline
             app.UseMvc(routes =>
             {
-                routes.MapRoute(
-                    name: "default",
-                    template: "{controller}/{action}/{id?}",
-                    defaults: new { controller = "Home", action = "Index" });
-
                 routes.MapRoute(
                     name: "api",
                     template: "{controller}/{id?}");

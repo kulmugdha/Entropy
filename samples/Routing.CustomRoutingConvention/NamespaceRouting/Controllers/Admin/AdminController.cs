@@ -8,9 +8,15 @@ namespace MySite.Admin
     /// </summary>
     public class AdminController : Controller
     {
-	    public string AddUser(string userName)
+        public string GetUser(int id)
         {
-            return string.Format("User {0} added successfully", userName);
+            return string.Format("User {0} retrieved successfully", id);
+        }
+
+        [HttpGet("/[action]/{username}")]
+        public string GetUserByName(string userName)
+        {
+            return string.Format("User {0} retrieved successfully", userName);
         }
     }
 }
